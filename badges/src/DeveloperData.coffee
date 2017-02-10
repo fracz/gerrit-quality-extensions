@@ -1,0 +1,17 @@
+PHP_TOOL_URL = 'http://apps.iisg.agh.edu.pl:10005'
+
+new class DeveloperData
+  @CACHE = {}
+
+  constructor: (@developer) ->
+
+  ready: (callback) =>
+    if DeveloperData.CACHE[@developer.id]
+      callback(DeveloperData.CACHE[@developer.id])
+    else
+      $.getJSON("#{PHP_TOOL_URL}/review/api/badges/user/#{@developer.email}")
+      .done (data) =>
+        callback(DeveloperData.CACHE[@developer.id] = data)
+      .fail -> callback(null)
+
+setInterval((-> DeveloperData.CACHE = {}), 60 * 5 * 1000)
