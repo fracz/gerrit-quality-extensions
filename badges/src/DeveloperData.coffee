@@ -1,4 +1,4 @@
-PHP_TOOL_URL = 'http://apps.iisg.agh.edu.pl:10005'
+PHP_TOOL_URL = 'https://review-analyzer.fslab.agh.edu.pl'
 
 new class DeveloperData
   @CACHE = {}

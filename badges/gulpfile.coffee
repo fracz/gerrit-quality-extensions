@@ -5,18 +5,18 @@ del = require('del')
 runSequence = require('run-sequence')
 
 gulp.task 'scripts', ->
-  gulp.src('src/badges.coffee')
+  gulp.src('src/analyzerPlugin.coffee')
   .pipe($.include())
   .pipe($.coffee())
-  .pipe($.concat('badges.js'))
+  .pipe($.concat('analyzer-plugin.js'))
   .pipe(gulp.dest('dist'))
-  .pipe($.rename('badges.min.js'))
+  .pipe($.rename('analyzer-plugin.min.js'))
   .pipe($.uglify())
   .pipe(gulp.dest('dist'))
 
 gulp.task 'clean', (done) ->
   del [
-      'dist/badges*.js'
+      'dist/*.js'
     ]
   ,
     done

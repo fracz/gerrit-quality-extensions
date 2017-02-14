@@ -1,0 +1,183 @@
+.analyzer-panel {
+    border-spacing: 0px 5px;
+}
+
+.analyzer-runButton {
+    margin-top: 22px !important;
+    margin-left: 120px !important;
+}
+
+.analyzer-selectProject {
+    width: 350px !important;
+}
+
+.analyzer-dataRow {
+    border-collapse: separate;
+    border-spacing: 10px 5px;
+}
+
+.ranking-table > tbody > tr:first-child {
+    display: none;
+}
+
+.ranking-table img {
+    max-height: 20px
+}
+
+.ranking-table > tbody > tr:nth-child(2) {
+    background: gold;
+    font-size: 2em;
+}
+
+.ranking-table > tbody > tr:nth-child(2) img {
+    max-height: 40px;
+}
+
+.ranking-table > tbody > tr:nth-child(3) {
+    background: silver;
+    font-size: 1.7em;
+}
+
+.ranking-table > tbody > tr:nth-child(4) {
+    background: burlywood;
+    font-size: 1.3em;
+}
+
+.ranking-table td {
+    font-size: inherit;
+}
+
+.analyzer-popup {
+    width: 500px;
+    height: 500px;
+    left: 550px !important;
+    top: 200px !important;
+}
+
+.analyzer-popupPanel {
+    width: 480px;
+    height: 20px;
+}
+
+.analyzer-commentsList {
+    margin-left: 15px;
+}
+
+.analyzer-nodeGraph {
+    margin-left: 15px;
+}
+
+.developer-stats .score {
+    background: darkgreen;
+    font-weight: bold;
+    color: white;
+    border-radius: 5px;
+    padding: 1px 4px;
+    display: inline-block;
+    margin: 0 3px;
+    line-height: 1.2em;
+    font-size: 0.9em;
+    cursor: default;
+}
+
+.developer-stats .badge {
+    display: inline-block;
+    margin: 0 2px;
+    text-decoration: none;
+    outline: none;
+    color: inherit;
+}
+
+.developer-stats .badge sub {
+    font-weight: bold;
+}
+
+.developer-stats .avatar {
+    max-height: 15px;
+    margin-right: 3px;
+}
+
+#analyzer-header {
+    padding: 5px;
+    text-align: center;
+    font-size: 1.3em;
+}
+
+#analyzer-header .developer-stats {
+    display: inline-block;
+    margin: 5px 10px;
+}
+
+.com-google-gerrit-client-change-ChangeScreen_BinderImpl_GenCss_style-changeExtension .developer-stats {
+    display: block;
+    margin: 5px 0;
+}
+
+.score-tooltip tr.project-header {
+    font-weight: bold;
+    text-align: center;
+}
+
+.score-tooltip table {
+    margin-top: 5px;
+    padding-top: 5px;
+    width: 100%;
+}
+
+.score-tooltip table:first-child {
+    margin: 0;
+    padding: 0;
+}
+
+.score-tooltip .minus {
+    font-weight: bold;
+    color: darkred;
+}
+
+.score-tooltip .plus {
+    font-weight: bold;
+    color: darkgreen;
+}
+
+.menuBarUserNamePanel {
+    font-size: 15px;
+}
+
+@media screen and (max-width: 1370px) {
+    input.searchTextBox {
+        max-width: 300px;
+    }
+}
+
+.badge-tooltip .badge-name {
+    font-weight: bold;
+}
+
+.badge-tooltip > span {
+    display: block;
+}
+
+.badge-tooltip .badge-projects {
+    padding-left: 25px;
+    margin: 0;
+    margin-top: 5px;
+}
+
+.tinyNotice_status_success .score-gain {
+    display: block;
+    font-size: 2em;
+    font-weight: bold;
+    text-align: center;
+}
+
+.tinyNotice_status_success ul {
+    list-style-type:none;
+    padding: 0
+}
+
+.tinyNotice_status_success ul .fa {
+    color: white !important;
+    width:30px;
+    text-align: center
+}
+
