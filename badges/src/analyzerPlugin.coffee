@@ -38,7 +38,8 @@ do ->
   appendCustomJsScript('https://code.jquery.com/jquery-2.2.4.min.js')
   appendCustomStyle('https://gitcdn.xyz/repo/ebrahimiaval/tinyNotice/master/dist/tinyNotice-theme.css')
   appendCustomStyle('https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css')
-  appendCustomStyle('https://cdnjs.cloudflare.com/ajax/libs/tooltipster/3.3.0/css/themes/tooltipster-shadow.min.css')
+  appendCustomStyle('https://cdnjs.cloudflare.com/ajax/libs/tooltipster/3.3.0/css/tooltipster.css')
+  appendCustomStyle('https://cdnjs.cloudflare.com/ajax/libs/tooltipster/3.3.0/css/themes/tooltipster-light.min.css')
 
   analyzerPluginsStyles = document.createElement('style')
   analyzerPluginsStyles.setAttribute('type', 'text/css')
