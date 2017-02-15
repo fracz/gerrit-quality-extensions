@@ -472,14 +472,14 @@
       script = document.createElement('script');
       script.type = 'text/javascript';
       script.src = url;
-      return $("head").append(script);
+      return document.head.append(script);
     };
     appendCustomStyle = function(url) {
       var style;
       style = document.createElement('link');
       style.rel = 'stylesheet';
       style.href = url;
-      return $("head").append(style);
+      return document.head.append(style);
     };
     waitForAllScriptsToLoad = function() {
       if ($("<a>").tooltipster && $.tinyNotice && window.Cookies) {

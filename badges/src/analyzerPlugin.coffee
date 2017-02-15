@@ -12,13 +12,13 @@ do ->
     script = document.createElement('script')
     script.type = 'text/javascript'
     script.src = url
-    $("head").append(script)
+    document.head.append(script)
 
   appendCustomStyle = (url) ->
     style = document.createElement('link')
     style.rel = 'stylesheet'
     style.href = url
-    $("head").append(style)
+    document.head.append(style)
 
   waitForAllScriptsToLoad = ->
     if $("<a>").tooltipster and $.tinyNotice and window.Cookies
