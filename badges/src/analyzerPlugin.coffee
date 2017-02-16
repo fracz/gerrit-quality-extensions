@@ -21,7 +21,7 @@ do ->
     document.head.append(style)
 
   waitForAllScriptsToLoad = ->
-    if $("<a>").tooltipster and $.tinyNotice and window.Cookies
+    if $("<a>").tooltipster and $.tinyNotice and window.Cookies and window.Gerrit
       initBadges()
     else
       setTimeout(waitForAllScriptsToLoad, 100)
