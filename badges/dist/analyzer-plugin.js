@@ -482,7 +482,7 @@
       return document.head.append(style);
     };
     waitForAllScriptsToLoad = function() {
-      if ($("<a>").tooltipster && $.tinyNotice && window.Cookies) {
+      if ($("<a>").tooltipster && $.tinyNotice && window.Cookies && window.Gerrit) {
         return initBadges();
       } else {
         return setTimeout(waitForAllScriptsToLoad, 100);
