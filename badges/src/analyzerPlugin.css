@@ -163,21 +163,20 @@
     margin-top: 5px;
 }
 
-.tinyNotice_status_success .score-gain {
+.tinyNoticeWrap.success .score-gain {
     display: block;
     font-size: 2em;
     font-weight: bold;
     text-align: center;
 }
 
-.tinyNotice_status_success ul {
-    list-style-type:none;
+.tinyNoticeWrap.success ul {
+    list-style-type: none;
     padding: 0
 }
 
-.tinyNotice_status_success ul .fa {
+.tinyNoticeWrap.success ul .fa {
     color: white !important;
-    width:30px;
+    width: 30px;
     text-align: center
 }
-
