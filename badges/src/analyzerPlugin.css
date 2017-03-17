@@ -163,6 +163,10 @@
     margin-top: 5px;
 }
 
+.tinyNoticeWrap {
+    direction: ltr !important;
+}
+
 .tinyNoticeWrap.success .score-gain {
     display: block;
     font-size: 2em;
