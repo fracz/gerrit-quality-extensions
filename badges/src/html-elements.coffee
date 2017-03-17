@@ -1,10 +1,11 @@
 attachTooltip = (element, content) ->
-  $(element).tooltipster
+  $(element).tooltipster?(
     theme: 'tooltipster-light'
     animation: 'grow'
     position: 'bottom'
     content: content
     contentAsHTML: yes
+  )
   $(element)
 
 getUserProjects = (stats) ->
@@ -36,7 +37,8 @@ Score = (data) ->
   score
 
 Badge = (data, includeProjectNames = false) ->
-  badge = $("<a>").addClass('badge').attr('href', '#/x/analyzerPlugin/badges/')
+  badge = $("<span>").addClass('badge')
+  #.attr('href', '#/x/analyzerPlugin/badges/')
   badge.append(data.awesomeFont)
   badge.append($("<sub>").text(data.times)) if data.times > 1
   badge.attr('title', data.name)

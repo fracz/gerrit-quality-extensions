@@ -4,15 +4,19 @@
   (function() {
     var analyzerPluginsStyles, appendCustomJsScript, appendCustomStyle, initBadges, waitForAllScriptsToLoad, waitForJQuery;
     initBadges = function() {
-      var Badge, Badges, CurrentUserDrawer, DeveloperData, DeveloperElement, PHP_TOOL_URL, Score, ScoreTable, StatsDrawer, attachTooltip, getUserProjects;
+      var Badge, Badges, CurrentUserDrawer, DeveloperData, DeveloperElement, PHP_TOOL_URL, Score, ScoreTable, StatsDrawer, attachTooltip, getUserProjects, hallElement;
+      PHP_TOOL_URL = 'https://review-analyzer.fslab.agh.edu.pl';
       attachTooltip = function(element, content) {
-        $(element).tooltipster({
-          theme: 'tooltipster-light',
-          animation: 'grow',
-          position: 'bottom',
-          content: content,
-          contentAsHTML: true
-        });
+        var base;
+        if (typeof (base = $(element)).tooltipster === "function") {
+          base.tooltipster({
+            theme: 'tooltipster-light',
+            animation: 'grow',
+            position: 'bottom',
+            content: content,
+            contentAsHTML: true
+          });
+        }
         return $(element);
       };
       getUserProjects = function(stats) {
@@ -98,7 +102,7 @@
         if (includeProjectNames == null) {
           includeProjectNames = false;
         }
-        badge = $("<a>").addClass('badge').attr('href', '#/x/analyzerPlugin/badges/');
+        badge = $("<span>").addClass('badge');
         badge.append(data.awesomeFont);
         if (data.times > 1) {
           badge.append($("<sub>").text(data.times));
@@ -163,7 +167,6 @@
         }
         return $("<span>").addClass('developer-stats').append(avatar).append(developer.name).append(Score(developer.stats)).append(Badges(developer.stats));
       };
-      PHP_TOOL_URL = 'https://review-analyzer.fslab.agh.edu.pl';
       new (DeveloperData = (function() {
         DeveloperData.CACHE = {};
 
@@ -464,6 +467,40 @@
       CurrentUserDrawer.draw();
       setInterval(CurrentUserDrawer.draw, 60 * 1000);
       Gerrit.on('history', CurrentUserDrawer.notifyAboutNewAchievements);
+      $('.topmenuMenuLeft tr:first-child td.gwt-TabBarRest-wrapper').before("<td align=\"left\" class=\"gwt-TabBarItem-wrapper\" style=\"vertical-align: bottom;\">\n  <div tabindex=\"0\" class=\"gwt-TabBarItem\" role=\"tab\">\n    <div id=\"hall-of-fshame-link\" class=\"gwt-Label\" style=\"white-space: nowrap;\">Hall Of FSHame</div>\n  </div>\n</td>");
+      hallElement = document.createElement('div');
+      hallElement.id = 'hall-of-fshame';
+      hallElement.innerHTML = "<div style=\"position: fixed; top: 0; height: 100vh; width: 100%; z-index: 1000; background: rgba(255, 255, 255, .9); overflow: auto\">\n    <button id=\"hall-of-fshame-close\" style=\"float: right; font-size: 3em\">X</button>\n    <h1 style=\"padding: 15px\">IISG Hall Of FSHame</h1>\n        <div id=\"hall-of-fshame-loading\" style=\"padding: 15px\">Loading...</div>\n    <div id=\"hall-of-fshame-list\" style=\"padding: 15px\"></div>\n</div>\n";
+      document.body.append(hallElement);
+      $('#hall-of-fshame').hide();
+      $("#hall-of-fshame-link").click(function() {
+        $('#hall-of-fshame, #hall-of-fshame-loading').show();
+        $('#hall-of-fshame-list').children().remove();
+        return $.getJSON(PHP_TOOL_URL + "/review/api/badges/user").done((function(_this) {
+          return function(data) {
+            var j, len, results, row, stats;
+            $('#hall-of-fshame-loading').hide();
+            data = data.filter(function(d) {
+              return d.ranking !== 0;
+            }).sort(function(a, b) {
+              return b.ranking - a.ranking;
+            });
+            results = [];
+            for (j = 0, len = data.length; j < len; j++) {
+              stats = data[j];
+              row = $('<div class="hall-of-fshame-item"></div>');
+              row.append('<h4>' + stats.name + '</h4>').append(Score(stats)).append(Badges(stats));
+              results.push($('#hall-of-fshame-list').append(row));
+            }
+            return results;
+          };
+        })(this)).fail(function() {
+          return callback(null);
+        });
+      });
+      $("#hall-of-fshame-close").click(function() {
+        return $('#hall-of-fshame').hide();
+      });
       Gerrit.on('history', StatsDrawer.drawStats);
       return StatsDrawer.drawStats(15);
     };
@@ -505,7 +542,7 @@
     appendCustomStyle('https://cdnjs.cloudflare.com/ajax/libs/tooltipster/3.3.0/css/themes/tooltipster-light.min.css');
     analyzerPluginsStyles = document.createElement('style');
     analyzerPluginsStyles.setAttribute('type', 'text/css');
-    analyzerPluginsStyles.innerText = ".analyzer-panel {\n    border-spacing: 0px 5px;\n}\n\n.analyzer-runButton {\n    margin-top: 22px !important;\n    margin-left: 120px !important;\n}\n\n.analyzer-selectProject {\n    width: 350px !important;\n}\n\n.analyzer-dataRow {\n    border-collapse: separate;\n    border-spacing: 10px 5px;\n}\n\n.ranking-table > tbody > tr:first-child {\n    display: none;\n}\n\n.ranking-table img {\n    max-height: 20px\n}\n\n.ranking-table > tbody > tr:nth-child(2) {\n    background: gold;\n    font-size: 2em;\n}\n\n.ranking-table > tbody > tr:nth-child(2) img {\n    max-height: 40px;\n}\n\n.ranking-table > tbody > tr:nth-child(3) {\n    background: silver;\n    font-size: 1.7em;\n}\n\n.ranking-table > tbody > tr:nth-child(4) {\n    background: burlywood;\n    font-size: 1.3em;\n}\n\n.ranking-table td {\n    font-size: inherit;\n}\n\n.analyzer-popup {\n    width: 500px;\n    height: 500px;\n    left: 550px !important;\n    top: 200px !important;\n}\n\n.analyzer-popupPanel {\n    width: 480px;\n    height: 20px;\n}\n\n.analyzer-commentsList {\n    margin-left: 15px;\n}\n\n.analyzer-nodeGraph {\n    margin-left: 15px;\n}\n\n.developer-stats .score {\n    background: darkgreen;\n    font-weight: bold;\n    color: white;\n    border-radius: 5px;\n    padding: 1px 4px;\n    display: inline-block;\n    margin: 0 3px;\n    line-height: 1.2em;\n    font-size: 0.9em;\n    cursor: default;\n}\n\n.developer-stats .badge {\n    display: inline-block;\n    margin: 0 2px;\n    text-decoration: none;\n    outline: none;\n    color: inherit;\n}\n\n.developer-stats .badge sub {\n    font-weight: bold;\n}\n\n.developer-stats .avatar {\n    max-height: 15px;\n    margin-right: 3px;\n}\n\n#analyzer-header {\n    padding: 5px;\n    text-align: center;\n    font-size: 1.3em;\n}\n\n#analyzer-header .developer-stats {\n    display: inline-block;\n    margin: 5px 10px;\n}\n\n.com-google-gerrit-client-change-ChangeScreen_BinderImpl_GenCss_style-changeExtension .developer-stats {\n    display: block;\n    margin: 5px 0;\n}\n\n.score-tooltip tr.project-header {\n    font-weight: bold;\n    text-align: center;\n}\n\n.score-tooltip table {\n    margin-top: 5px;\n    padding-top: 5px;\n    width: 100%;\n}\n\n.score-tooltip table:first-child {\n    margin: 0;\n    padding: 0;\n}\n\n.score-tooltip .minus {\n    font-weight: bold;\n    color: darkred;\n}\n\n.score-tooltip .plus {\n    font-weight: bold;\n    color: darkgreen;\n}\n\n.menuBarUserNamePanel {\n    font-size: 15px;\n}\n\n@media screen and (max-width: 1370px) {\n    input.searchTextBox {\n        max-width: 300px;\n    }\n}\n\n.badge-tooltip .badge-name {\n    font-weight: bold;\n}\n\n.badge-tooltip > span {\n    display: block;\n}\n\n.badge-tooltip .badge-projects {\n    padding-left: 25px;\n    margin: 0;\n    margin-top: 5px;\n}\n\n.tinyNoticeWrap {\n    direction: ltr !important;\n}\n\n.tinyNoticeWrap.success .score-gain {\n    display: block;\n    font-size: 2em;\n    font-weight: bold;\n    text-align: center;\n}\n\n.tinyNoticeWrap.success ul {\n    list-style-type: none;\n    padding: 0\n}\n\n.tinyNoticeWrap.success ul .fa {\n    color: white !important;\n    width: 30px;\n    text-align: center\n}\n";
+    analyzerPluginsStyles.innerText = ".analyzer-panel {\n    border-spacing: 0px 5px;\n}\n\n.analyzer-runButton {\n    margin-top: 22px !important;\n    margin-left: 120px !important;\n}\n\n.analyzer-selectProject {\n    width: 350px !important;\n}\n\n.analyzer-dataRow {\n    border-collapse: separate;\n    border-spacing: 10px 5px;\n}\n\n.ranking-table > tbody > tr:first-child {\n    display: none;\n}\n\n.ranking-table img {\n    max-height: 20px\n}\n\n.ranking-table > tbody > tr:nth-child(2) {\n    background: gold;\n    font-size: 2em;\n}\n\n.ranking-table > tbody > tr:nth-child(2) img {\n    max-height: 40px;\n}\n\n.ranking-table > tbody > tr:nth-child(3) {\n    background: silver;\n    font-size: 1.7em;\n}\n\n.ranking-table > tbody > tr:nth-child(4) {\n    background: burlywood;\n    font-size: 1.3em;\n}\n\n.ranking-table td {\n    font-size: inherit;\n}\n\n.analyzer-popup {\n    width: 500px;\n    height: 500px;\n    left: 550px !important;\n    top: 200px !important;\n}\n\n.analyzer-popupPanel {\n    width: 480px;\n    height: 20px;\n}\n\n.analyzer-commentsList {\n    margin-left: 15px;\n}\n\n.analyzer-nodeGraph {\n    margin-left: 15px;\n}\n\n.developer-stats .score {\n    background: darkgreen;\n    font-weight: bold;\n    color: white;\n    border-radius: 5px;\n    padding: 1px 4px;\n    display: inline-block;\n    margin: 0 3px;\n    line-height: 1.2em;\n    font-size: 0.9em;\n    cursor: default;\n}\n\n.developer-stats .badge {\n    display: inline-block;\n    margin: 0 2px;\n    text-decoration: none;\n    outline: none;\n    color: inherit;\n}\n\n.developer-stats .badge sub {\n    font-weight: bold;\n}\n\n.developer-stats .avatar {\n    max-height: 15px;\n    margin-right: 3px;\n}\n\n#analyzer-header {\n    padding: 5px;\n    text-align: center;\n    font-size: 1.3em;\n}\n\n#analyzer-header .developer-stats {\n    display: inline-block;\n    margin: 5px 10px;\n}\n\n.com-google-gerrit-client-change-ChangeScreen_BinderImpl_GenCss_style-changeExtension .developer-stats {\n    display: block;\n    margin: 5px 0;\n}\n\n.score-tooltip tr.project-header {\n    font-weight: bold;\n    text-align: center;\n}\n\n.score-tooltip table {\n    margin-top: 5px;\n    padding-top: 5px;\n    width: 100%;\n}\n\n.score-tooltip table:first-child {\n    margin: 0;\n    padding: 0;\n}\n\n.score-tooltip .minus {\n    font-weight: bold;\n    color: darkred;\n}\n\n.score-tooltip .plus {\n    font-weight: bold;\n    color: darkgreen;\n}\n\n.menuBarUserNamePanel {\n    font-size: 15px;\n}\n\n@media screen and (max-width: 1370px) {\n    input.searchTextBox {\n        max-width: 300px;\n    }\n}\n\n.badge-tooltip .badge-name {\n    font-weight: bold;\n}\n\n.badge-tooltip > span {\n    display: block;\n}\n\n.badge-tooltip .badge-projects {\n    padding-left: 25px;\n    margin: 0;\n    margin-top: 5px;\n}\n\n.tinyNoticeWrap {\n    direction: ltr !important;\n}\n\n.tinyNoticeWrap.success .score-gain {\n    display: block;\n    font-size: 2em;\n    font-weight: bold;\n    text-align: center;\n}\n\n.tinyNoticeWrap.success ul {\n    list-style-type: none;\n    padding: 0\n}\n\n.tinyNoticeWrap.success ul .fa {\n    color: white !important;\n    width: 30px;\n    text-align: center\n}\n\n#hall-of-fshame-list .hall-of-fshame-item:first-child {\n    font-size: 4em;\n    background: gold;\n}\n#hall-of-fshame-list .hall-of-fshame-item:nth-child(2) {\n    font-size: 3em;\n    background: silver;\n}\n#hall-of-fshame-list .hall-of-fshame-item:nth-child(3) {\n    font-size: 2em;\n    background: bisque;\n}\n\n.hall-of-fshame-item .badge {\n    padding-right: 5px;\n}\n\n.hall-of-fshame-item {\n    padding: 10px;\n    max-width: 700px;\n    margin: 10px auto;\n}\n\n.hall-of-fshame-item h4 {\n    margin:0;\n}\n\n.hall-of-fshame-item .score {\n    float: right;\n}\n";
     document.head.append(analyzerPluginsStyles);
     return waitForJQuery();
   })();

@@ -184,3 +184,34 @@
     width: 30px;
     text-align: center
 }
+
+#hall-of-fshame-list .hall-of-fshame-item:first-child {
+    font-size: 4em;
+    background: gold;
+}
+#hall-of-fshame-list .hall-of-fshame-item:nth-child(2) {
+    font-size: 3em;
+    background: silver;
+}
+#hall-of-fshame-list .hall-of-fshame-item:nth-child(3) {
+    font-size: 2em;
+    background: bisque;
+}
+
+.hall-of-fshame-item .badge {
+    padding-right: 5px;
+}
+
+.hall-of-fshame-item {
+    padding: 10px;
+    max-width: 700px;
+    margin: 10px auto;
+}
+
+.hall-of-fshame-item h4 {
+    margin:0;
+}
+
+.hall-of-fshame-item .score {
+    float: right;
+}

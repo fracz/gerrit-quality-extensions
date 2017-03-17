@@ -1,9 +1,11 @@
 do ->
   initBadges = ->
+    PHP_TOOL_URL = 'https://review-analyzer.fslab.agh.edu.pl'
     #=include html-elements.coffee
     #=include DeveloperData.coffee
     #=include StatsDrawer.coffee
     #=include CurrentUserDrawer.coffee
+    #=include HallOfFshame.coffee
 
     Gerrit.on('history', StatsDrawer.drawStats)
     StatsDrawer.drawStats(15)
