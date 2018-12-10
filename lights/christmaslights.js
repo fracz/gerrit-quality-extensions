@@ -39,6 +39,18 @@ function XLSF(oTarget,urlBase) {
     large: 96	
   }
 
+  var totalSmashCounter = 0;
+  window.setInterval(function(){
+      if (totalSmashCounter) {
+          statsd.src = 'https://temp.fracz.com/statsd/send.php?ns=lights&count=' + totalSmashCounter;
+          totalSmashCounter = 0;
+      }
+  }, 5000);
+  var statsd = document.createElement('iframe');
+  statsd.style.display = 'none';
+  document.documentElement.appendChild(statsd);
+  
+  
   if (window.innerWidth || window.innerHeight) {
     var screenX = window.innerWidth; // -(!isIE?24:2);
     var screenY = window.innerHeight;
@@ -328,6 +340,7 @@ function XLSF(oTarget,urlBase) {
         self.setBGPos(self.w*-rndFrame,0);
       }
       xlsf.lightSmashCounter++;
+      totalSmashCounter++;
     }
 
     this.smashBonus = function() {
